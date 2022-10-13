@@ -59,3 +59,40 @@
 2. > ss://YWVzLTI1Ni1nY206TWFoc2FBbWluaQ@gimpmie.hair:443?plugin=v2ray-plugin%3Bpath%3Drabbitmq%3Bhost%3Dgimpmie.hair%3Btls
 
 ### [لیست تمام سرور ها](CONFIGS.md)
+
+# لینوکس
+
+۱. نرم‌افزار shadowsocks-libev را نصب کنید. برای نصب این برنامه می‌توانید از پکج منجنر استفاده کنید. مثلاً در اوبونتو با `sudo apt install shadowsocks-libev`. همچنین می‌توانید آخرین ورژن برنامه را از [این محل](https://github.com/shadowsocks/shadowsocks-libev/releases) دریافت کنید. برای چک کردن این که آیا نرم‌افزار نصب است، دستور `ss-local` را در ترمینال امتحان کنید.
+
+۲. آخرین ورژن پلاگین v2ray را از [این محل](https://github.com/shadowsocks/v2ray-plugin/releases) دانلود کنید. داخل فایل دانلود شده یک فایل اجرایی وجود دارد. با فرض این که شما ورژن amd64 پلاگین را دانلود کرده باشید نام این فایل v2ray-plugin_linux_amd64 است. اگر در ترمینال، در دایرکتوری جاری این فایل وجود داشته باشد، می‌توانید آن را با اجرای این دستور در محل مناسب نصب کنید: `sudo install v2ray-plugin_linux_amd64 /usr/local/bin/v2ray-plugin`.
+
+۳. یک فایل جیسون با نام shadowsocks.json در دایرکتوری home خود ایجاد کنید و محتوای زیر را در آن کپی کنید:
+
+```
+{
+    "server":["DOMAIN_NAME"],
+    "mode":"tcp_and_udp",
+    "server_port":443,
+    "password":"PASSWORD",
+    "method":"aes-256-gcm",
+
+    "local_port": 1080,
+    "local_address": "127.0.0.1",
+
+    "plugin": "/usr/local/bin/v2ray-plugin",
+    "plugin_opts": "path=rabbitmq;host=DOMAIN_NAME;tls"
+}
+```
+
+در این تنظیمات باید موارد زیر را اصلاح کنید:
+
+ - نام دامنه را در فیلدهای server و plugin_opts با مقدار موردنظر خود جایگزین کنید.
+ - کلمه عبور را در فیلد password اصلاح کنید.
+
+برای استخراج این جزئیات از URLهای موجود در [لیست سرورها](CONFIGS.md) می‌توانید از اسکریپت ss-link-to-json.py استفاده کنید.
+
+۴. شدوساکس را با این دستور اجرا کنید: ‍`ss-local -c ~/shadowsocks.json`.
+
+بعد از این باید شدوساکس به صورت یک پروکسی SOCKS روی پورت 1080 در دسترس باشد. برای استفاده از این پروکسی در مرورگر می‌توانید از افزونه FoxyProxy در کروم و فایرفاکس استفاده کنید.
+
+### [لیست تمام سرور ها](CONFIGS.md)
